@@ -1,0 +1,278 @@
+:root {
+  color-scheme: light;
+  --ink: #111111;
+  --paper: #f6f3ed;
+  --water: rgba(125, 158, 201, 0.34);
+  --water-strong: rgba(119, 150, 193, 0.48);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Montserrat", system-ui, sans-serif;
+}
+a { color: inherit; }
+
+.home-page { overflow-x: hidden; }
+.hero-home {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+}
+
+.hero-canvas {
+  position: relative;
+  width: 100%;
+  min-height: 100svh;
+  overflow: hidden;
+  background: var(--paper);
+}
+
+.hero-base,
+.hero-soften,
+.season-cycle,
+.precipitation,
+.subsurface-water,
+.infiltration-zone,
+
+/* Cicli scientifici: layer separato dal paesaggio originale. */
+.hero-graphics {
+  position: absolute;
+  z-index: 5;
+  left: 50%; top: 50%;
+  width: max(100%, 209.815svh);
+  height: max(100%, 47.661vw);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.graphic { display: block; position: absolute; height: auto; transform: translate(-50%,-50%); opacity: .76; }
+.graphic-photosynthesis { left: 18.3%; top: 28.9%; width: 6.0%; }
+.graphic-ecosystem { left: 85.2%; top: 13.2%; width: 13.6%; }
+.graphic-nitrogen { left: 35.5%; top: 81.8%; width: 7.6%; }
+.graphic-water { left: 67.3%; top: 74.7%; width: 7.0%; }
+.graphic-nutrient { left: 94.3%; top: 80.0%; width: 7.6%; }
+@media (max-width:900px) {
+  .hero-graphics { width: 100%; height: 100%; }
+}
+
+.hero-brand {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-base {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+  user-select: none;
+  filter: brightness(1.08) saturate(0.92) contrast(0.96);
+  opacity: 0.9;
+}
+
+.hero-soften {
+  background: rgba(246, 243, 237, 0.10);
+  pointer-events: none;
+}
+
+.season {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  mix-blend-mode: multiply;
+}
+
+.season-spring {
+  background:
+    radial-gradient(circle at 44% 64%, rgba(184, 208, 122, 0.16), transparent 22%),
+    linear-gradient(180deg, rgba(196, 219, 160, 0.12), rgba(130, 160, 113, 0.04) 58%, transparent 100%);
+  animation: seasonSpring 28s infinite;
+}
+.season-summer {
+  background:
+    radial-gradient(circle at 68% 70%, rgba(190, 178, 89, 0.14), transparent 20%),
+    linear-gradient(180deg, rgba(227, 217, 146, 0.12), rgba(218, 191, 114, 0.06) 58%, transparent 100%);
+  animation: seasonSummer 28s infinite;
+}
+.season-autumn {
+  background:
+    radial-gradient(circle at 25% 75%, rgba(188, 140, 73, 0.14), transparent 18%),
+    linear-gradient(180deg, rgba(204, 185, 122, 0.12), rgba(176, 118, 72, 0.07) 62%, transparent 100%);
+  animation: seasonAutumn 28s infinite;
+}
+.season-winter {
+  background:
+    linear-gradient(180deg, rgba(221, 229, 235, 0.22), rgba(166, 189, 212, 0.08) 52%, transparent 100%),
+    radial-gradient(circle at 80% 20%, rgba(255,255,255,0.22), transparent 25%);
+  animation: seasonWinter 28s infinite;
+}
+
+.precipitation { opacity: 0; pointer-events: none; }
+.precipitation-rain {
+  background-image:
+    linear-gradient(180deg, rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.08) 15%, rgba(255,255,255,0.0) 100%),
+    repeating-linear-gradient(100deg,
+      rgba(255,255,255,0) 0 34px,
+      rgba(255,255,255,0.16) 34px 36px,
+      rgba(255,255,255,0) 36px 72px);
+  background-size: 100% 100%, 180px 180px;
+  mix-blend-mode: screen;
+  animation: rainPhase 28s infinite, rainDrift 1s linear infinite;
+}
+.precipitation-snow {
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,0.72) 0 1.2px, transparent 1.6px),
+    radial-gradient(circle, rgba(255,255,255,0.58) 0 1.7px, transparent 2px);
+  background-size: 120px 120px, 170px 170px;
+  background-position: 10px -10px, 40px -40px;
+  mix-blend-mode: screen;
+  animation: snowPhase 28s infinite, snowFall 10s linear infinite;
+}
+
+.subsurface-water { opacity: 0.84; pointer-events: none; }
+.groundwave {
+  position: absolute;
+  left: -8%;
+  right: -8%;
+  height: 11%;
+  border-radius: 50%;
+  background: linear-gradient(90deg, rgba(140,170,208,0.0), var(--water), rgba(140,170,208,0.0));
+  filter: blur(6px);
+  mix-blend-mode: multiply;
+}
+.groundwave-a { bottom: 6.2%; animation: groundwaterMove 11s ease-in-out infinite; }
+.groundwave-b { bottom: 2.6%; opacity: 0.76; animation: groundwaterMoveReverse 13s ease-in-out infinite; }
+.groundwave-c { bottom: -0.8%; opacity: 0.54; animation: groundwaterMove 17s ease-in-out infinite reverse; }
+
+.infiltration-zone {
+  mask-image: linear-gradient(180deg, transparent 0 52%, rgba(0,0,0,0.55) 66%, rgba(0,0,0,1) 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0 52%, rgba(0,0,0,0.55) 66%, rgba(0,0,0,1) 100%);
+  pointer-events: none;
+}
+.infiltration {
+  position: absolute;
+  top: 49%;
+  width: 3%;
+  height: 29%;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(160,190,218,0) 0%, rgba(141,173,210,0.10) 20%, rgba(122,156,199,0.38) 52%, rgba(122,156,199,0) 100%);
+  filter: blur(3px);
+  opacity: 0;
+  transform-origin: top center;
+}
+.infiltration::after {
+  content: "";
+  position: absolute;
+  left: 50%; top: 0;
+  transform: translateX(-50%);
+  width: 34%; height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255,255,255,0.0), rgba(255,255,255,0.32), rgba(255,255,255,0.0));
+}
+.infiltration-1 { left: 12%; animation: infiltrationPulse 8.4s ease-in-out infinite 0s; }
+.infiltration-2 { left: 26%; animation: infiltrationPulse 8.4s ease-in-out infinite 1.6s; }
+.infiltration-3 { left: 43%; animation: infiltrationPulse 8.4s ease-in-out infinite 2.7s; }
+.infiltration-4 { left: 63%; animation: infiltrationPulse 8.4s ease-in-out infinite 0.9s; }
+.infiltration-5 { left: 84%; animation: infiltrationPulse 8.4s ease-in-out infinite 2s; }
+
+.hero-brand {
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  top: 42.7%;
+  bottom: auto;
+  inset-inline: 0;
+  height: auto;
+  pointer-events: none;
+}
+.brand-link,
+.hero-nav { pointer-events: auto; }
+.hero-logo {
+  width: min(20.5vw, 10.8rem);
+  min-width: 7.2rem;
+  height: auto;
+  display: block;
+}
+.hero-nav {
+  transform: translateY(0.5rem);
+  display: flex;
+  gap: clamp(0.65rem, 1.6vw, 1.45rem);
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.hero-nav a {
+  font-family: "Montserrat", system-ui, sans-serif;
+  font-size: clamp(0.78rem, 1.02vw, 1rem);
+  font-weight: 700;
+  letter-spacing: 0.27em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: rgba(17,17,17,0.95);
+}
+.hero-nav a:hover,
+.hero-nav a:focus-visible {
+  opacity: 0.66;
+}
+
+.page-shell {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  background: var(--paper);
+}
+.page-shell nav {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.page-shell nav a {
+  text-decoration: none;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 0.86rem;
+}
+.page-shell h1 { font-size: clamp(2rem, 6vw, 4rem); margin: 10vh 0 0.3em; }
+.page-shell p { max-width: 62ch; line-height: 1.6; }
+
+@keyframes seasonSpring { 0%, 18%, 100% { opacity: 0.48; } 24%, 94% { opacity: 0; } }
+@keyframes seasonSummer { 0%, 18% { opacity: 0; } 25%, 43% { opacity: 0.38; } 49%, 100% { opacity: 0; } }
+@keyframes seasonAutumn { 0%, 43% { opacity: 0; } 50%, 68% { opacity: 0.42; } 74%, 100% { opacity: 0; } }
+@keyframes seasonWinter { 0%, 68% { opacity: 0; } 75%, 93% { opacity: 0.48; } 100% { opacity: 0.16; } }
+@keyframes rainPhase { 0%, 17%, 100% { opacity: 0; } 20%, 34% { opacity: 0.24; } 38%, 72% { opacity: 0; } 76%, 88% { opacity: 0.14; } }
+@keyframes rainDrift { from { background-position: 0 0, 0 0; } to { background-position: 0 0, -18px 90px; } }
+@keyframes snowPhase { 0%, 67% { opacity: 0; } 75%, 92% { opacity: 0.42; } 100% { opacity: 0; } }
+@keyframes snowFall { from { background-position: 10px -10px, 40px -40px; } to { background-position: 20px 120px, 52px 150px; } }
+@keyframes groundwaterMove { 0%,100% { transform: translateX(-2%) scaleX(1); } 50% { transform: translateX(2%) scaleX(1.02); } }
+@keyframes groundwaterMoveReverse { 0%,100% { transform: translateX(2%) scaleX(0.98); } 50% { transform: translateX(-3%) scaleX(1.02); } }
+@keyframes infiltrationPulse {
+  0%, 16%, 100% { opacity: 0; transform: translateY(-4%) scaleY(0.85); }
+  24% { opacity: 0.34; transform: translateY(0) scaleY(1); }
+  44% { opacity: 0.12; transform: translateY(5%) scaleY(1.1); }
+  58% { opacity: 0; transform: translateY(10%) scaleY(1.18); }
+}
+
+@media (max-width: 900px) {
+  .hero-canvas { min-height: auto; aspect-ratio: 1817 / 866; }
+  .hero-brand { top: 41%; gap: 0.9rem; }
+  .hero-logo { width: min(29vw, 9rem); min-width: 6.8rem; }
+  .hero-nav { gap: 0.55rem 0.8rem; }
+  .hero-nav a { font-size: clamp(0.72rem, 2.2vw, 0.92rem); letter-spacing: 0.26em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .season,
+  .precipitation,
+  .groundwave,
+  .infiltration { animation: none !important; }
+  .precipitation,
+  .infiltration { opacity: 0 !important; }
+  .season-spring { opacity: 0.14; }
+}
